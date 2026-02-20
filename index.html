@@ -1,185 +1,181 @@
-
-
-<!-- <?php
-include("api.php");
-include("fetchdata.php");
-
-?> -->
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WeatherApp</title>
-    <!-- linking html file with css -->
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <!-- <div class="days">
-        <h1>George Town Past Weather</h1>
-        <hr>
-        <?php 
-          if(is_array($fetchData)){
-          foreach($fetchData as $data){
-        
-        ?>
-        <div class="Sun">
-            <span id="day2"><?php echo $data['weather_date']??'';?><hr></span>
-            <img style="height: 40px;" 
-            src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/cloud-256.png">
-            
-            <span id="temp2"><?php echo $data['temperature']??'';?>&deg;<hr></span>
-            <span id="Pressure2"> <?php echo $data['pressure']??'';?>hPa<hr></span>
-            <span id="Humidity2"><?php echo $data['humidity']??'';?>%<hr></span>
-            <span id="Windspeed2"><?php echo $data['wind_speed']??'';?>km/h<hr></span>
-       </div>
-<?php 
-          }}
-?>
-       
-    </div> -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-    <!-- main content container -->
-    <div class="chill"> 
-        <!-- search bar -->
-        <div class="search">
-            <input type="text" placeholder="Enter city name" spellcheck="false"> 
-            <button><img style="height:55px; "
-              src="https://cdn-icons-png.flaticon.com/128/10947/10947920.png"></button>
+  <body>
+    <div class="chill">
+      <!-- Search -->
+      <div class="search">
+        <input type="text" placeholder="Enter city name" spellcheck="false" />
+        <button>
+          <img
+            style="height: 55px"
+            src="https://cdn-icons-png.flaticon.com/128/10947/10947920.png"
+          />
+        </button>
+      </div>
+
+      <!-- Error message -->
+      <p class="error" style="display: none; color: red; text-align: center">
+        City not found. Please enter a valid city name.
+      </p>
+
+      <!-- City -->
+      <div class="city">
+        <h2 class="city-name">George Town</h2>
+      </div>
+
+      <!-- Date & Day -->
+      <div class="dateday">
+        <div class="date"></div>
+        <div class="day" style="font-size: 20px"></div>
+      </div>
+
+      <!-- Temperature -->
+      <div class="degree">
+        <div class="temperature">
+          <p class="temp">22°C</p>
+          <img
+            style="height: 180px"
+            src="https://cdn0.iconfinder.com/data/icons/tuts/256/weather.png"
+          />
         </div>
-        <!-- city information -->
-        <div class="city">
-            <h2  class="city-name">George Town</h2>
-        </div>
-        <!-- date and day infromation -->
-           <div class="dateday">
-             <div class="date">
-                <span id="month">January</span>
-                <span id="daynum">3</span>,
-                <span id="year">2024</span>
-             </div>
-            <div class="day" style="font-size: 20px;">
-           </div>
-        </div>
-            
-        <div class="degree">
-            <div class="temperature">
-                <div>
-                    <p class="temp">22&deg;C</p>
-                </div>
-                <!-- temperature and weather icon -->
-            <img style="height: 180px;"
-            src="https://cdn0.iconfinder.com/data/icons/tuts/256/weather.png">
-       
-            </div>
-        </div>
-        <!-- weather details -->
-        <div class="details">
-            <div class="col">
-                <!-- inline css -->
-                <img style="height: 40px;margin-right: 10px;"
-                src="https://cdn1.iconfinder.com/data/icons/weather-471/128/HUMIDITY-256.png">
-            <div>
-                <p class="humidity">50%</p>
-                <p>Humidity</p>
-        </div>
-       </div>
-       <div class="col">
-           <img style="height:40px ;"
-           src="https://cdn-icons-png.flaticon.com/128/4115/4115904.png">
+      </div>
+
+      <!-- Details -->
+      <div class="details">
+        <div class="col">
+          <img
+            style="height: 40px"
+            src="https://cdn1.iconfinder.com/data/icons/weather-471/128/HUMIDITY-256.png"
+          />
           <div>
-            <p class="pressure">0%</p>
+            <p class="humidity">50%</p>
+            <p>Humidity</p>
+          </div>
+        </div>
+
+        <div class="col">
+          <img
+            style="height: 40px"
+            src="https://cdn-icons-png.flaticon.com/128/4115/4115904.png"
+          />
+          <div>
+            <p class="pressure">1013 hPa</p>
             <p>Pressure</p>
           </div>
-       </div>
-            <div class="col">
-                <img style="height: 40px;margin-right: 10px;"
-                src="https://cdn0.iconfinder.com/data/icons/weather-navy-volume-2/64/Wind_Speed-64.png">
-            <div>
-            <p class="wind">15 km/hr</p>
+        </div>
+
+        <div class="col">
+          <img
+            style="height: 40px"
+            src="https://cdn0.iconfinder.com/data/icons/weather-navy-volume-2/64/Wind_Speed-64.png"
+          />
+          <div>
+            <p class="wind">15 km/h</p>
             <p>Wind Speed</p>
+          </div>
         </div>
-    
-            </div>
-        </div>
+      </div>
     </div>
-    
-    <!-- javascript for weather app functionality -->
-<script>
-       
-const apiKey = "730314b40aa408701164c7f939ba4415";
-const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
-const searchBox = document.querySelector(".search input");
-const searchBtn = document.querySelector(".search button");
-const weatherIcon = document.querySelector(".temperature img");
+    <script>
+      const apiKey = "730314b40aa408701164c7f939ba4415";
+      const apiUrl =
+        "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
-async function checkWeather(city) {
-         const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
-         let date = new Date();
-         let day = date.getDay();
-         const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-         let dayName = days[day];
+      const searchBox = document.querySelector(".search input");
+      const searchBtn = document.querySelector(".search button");
+      const weatherIcon = document.querySelector(".temperature img");
+      const errorMsg = document.querySelector(".error");
 
-         if (response.status === 404){
-            document.querySelector(".error").style.display = "block";
-            document.querySelector(".weather").style.display = "none";
-        } else {
-            var data = await response.json();
-        console.log(data);
-        
-        document.querySelector(".city").innerHTML = data.name;
-        document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "&degC";
-        document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
-        document.querySelector(".wind").innerHTML = data.wind.speed + "km/h";
-        document.querySelector(".pressure").innerHTML = data.main.pressure + "hPa";
-        let now = new Date();
-        document.querySelector(".date").innerHTML= now.toLocaleDateString();
-        document.querySelector(".day").innerHTML= dayName;
-        
-    
+      async function checkWeather(city) {
+        try {
+          const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
 
-        const weatherMain = data.weather[0].main.toLowerCase();
+          if (!response.ok) {
+            errorMsg.style.display = "block";
+            return;
+          }
 
-if (weatherMain === "clouds") {
-    weatherIcon.src = "https://cdn0.iconfinder.com/data/icons/tuts/256/weather.png";
-} else if (weatherMain === "clear") {
-    weatherIcon.src = "https://cdn-icons-png.flaticon.com/128/6974/6974833.png";
-} else if (weatherMain === "rain") {
-    weatherIcon.src = "https://cdn3.iconfinder.com/data/icons/nature-emoji/50/Raining-256.png";
-} else if (weatherMain === "drizzle") {
-    weatherIcon.src = "https://cdn1.iconfinder.com/data/icons/weather-forecast-meteorology-color-1/128/weather-rain-light-256.png";
-} else if (weatherMain=== "mist") {
-    weatherIcon.src = "https://cdn1.iconfinder.com/data/icons/weather-forecast-meteorology-color-1/128/weather-foggy-256.png";
-} else if (weatherMain === "snow") {
-    weatherIcon.src = "https://cdn-icons-png.flaticon.com/128/2315/2315309.png";
-} else {
-    // handle unknown condition or set a default icon
-    console.log("Unknown weather condition:", weatherMain);
-    // weatherIcon.src = "default-icon-url";
-}
+          errorMsg.style.display = "none";
+          const data = await response.json();
 
-    
- }
+          // City
+          document.querySelector(".city-name").innerHTML = data.name;
 
-    
-  }
+          // Temp
+          document.querySelector(".temp").innerHTML =
+            Math.round(data.main.temp) + "°C";
 
+          // Details
+          document.querySelector(".humidity").innerHTML =
+            data.main.humidity + "%";
+          document.querySelector(".pressure").innerHTML =
+            data.main.pressure + " hPa";
+          document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
 
+          // Date
+          const now = new Date();
+          const dateOptions = {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          };
+          document.querySelector(".date").innerHTML = now.toLocaleDateString(
+            "en-US",
+            dateOptions,
+          );
 
+          const days = [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+          ];
+          document.querySelector(".day").innerHTML = days[now.getDay()];
 
+          // Weather Icon
+          const weatherMain = data.weather[0].main.toLowerCase();
 
-   
- 
-searchBtn.addEventListener("click", () => {
-    checkWeather(searchBox.value);
-   // loadWeather(searchBox.value);
-});
-   checkWeather("George Town");
-  // loadWeather("George Town");
-</script>
-</body>
-<!-- footer with copyright infromation -->
-<footer style="position: fixed; width: 100%; bottom: 0;text-align: left;padding-left: 10px;font-size: 20px;">&copy;2418129 Ayusha Karki</footer>
+          if (weatherMain === "clouds") {
+            weatherIcon.src =
+              "https://cdn0.iconfinder.com/data/icons/tuts/256/weather.png";
+          } else if (weatherMain === "clear") {
+            weatherIcon.src =
+              "https://cdn-icons-png.flaticon.com/128/6974/6974833.png";
+          } else if (weatherMain === "rain") {
+            weatherIcon.src =
+              "https://cdn3.iconfinder.com/data/icons/nature-emoji/50/Raining-256.png";
+          } else if (weatherMain === "drizzle") {
+            weatherIcon.src =
+              "https://cdn1.iconfinder.com/data/icons/weather-forecast-meteorology-color-1/128/weather-rain-light-256.png";
+          } else if (weatherMain === "mist") {
+            weatherIcon.src =
+              "https://cdn1.iconfinder.com/data/icons/weather-forecast-meteorology-color-1/128/weather-foggy-256.png";
+          } else if (weatherMain === "snow") {
+            weatherIcon.src =
+              "https://cdn-icons-png.flaticon.com/128/2315/2315309.png";
+          }
+        } catch (error) {
+          errorMsg.style.display = "block";
+        }
+      }
+
+      searchBtn.addEventListener("click", () => {
+        checkWeather(searchBox.value.trim());
+      });
+
+      // Default city
+      checkWeather("George Town");
+    </script>
+  </body>
 </html>
