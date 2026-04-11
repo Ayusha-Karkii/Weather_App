@@ -115,8 +115,20 @@
           errorMsg.style.display = "none";
           const data = await response.json();
 
-          // City
-          document.querySelector(".city-name").innerHTML = data.name;
+          let displayName = city;
+
+          // If mapped city
+          if (city.toLowerCase().trim() === "chitwan") {
+            displayName = "Chitwan";
+          } else {
+            displayName = data.name;
+          }
+          if (city.toLowerCase().trim() === "chitwan") {
+            document.querySelector(".city-name").innerHTML =
+              "Chitwan";
+          } else {
+            document.querySelector(".city-name").innerHTML = data.name;
+          }
 
           // Temp
           document.querySelector(".temp").innerHTML =
