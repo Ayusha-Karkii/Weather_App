@@ -96,7 +96,16 @@
 
       async function checkWeather(city) {
         try {
-          const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+          // Normalize input
+          let searchCity = city.toLowerCase().trim();
+
+          // 🔥 Custom mapping (add more if needed)
+          if (searchCity === "chitwan") {
+            searchCity = "Bharatpur,NP";
+          }
+          const response = await fetch(
+            apiUrl + searchCity + `&appid=${apiKey}`,
+          );
 
           if (!response.ok) {
             errorMsg.style.display = "block";
